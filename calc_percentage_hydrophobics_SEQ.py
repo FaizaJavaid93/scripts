@@ -30,9 +30,14 @@ amino_acid_hydrophobicity = {
 
 
 
-DNA_sequence = "ATGGCGACTGTCGAACCGGAAACCACCCCTACTCCTAATCCCCCGACTACAGAAGAGGAGAAAACGGAATCTAATCAGGAGGTTGCTAACCCAGAACACTATATTAAACATCCCCTACAGAACAGATGGGCACTCTGGTTTTTTAAAAATGATAAAAGCAAAACTTGGCAAGCAAACCTGCGGCTGATCTCCAAGTTTGATACTGTTGAAGACTTTTGGGCTCTGTACAACCATATCCAGTTGTCTAGTAATTTAATGCCTGGCTGTGACTACTCACTTTTTAAGGATGGTATTGAGCCTATGTGGGAAGATGAGAAAAACAAACGGGGAGGACGATGGCTAATTACATTGAACAAACAGCAGAGACGAAGTGACCTCGATCGCTTTTGGCTAGAGACACTTCTGTGCCTTATTGGAGAATCTTTTGATGACTACAGTGATGATGTATGTGGCGCTGTTGTTAATGTTAGAGCTAAAGGTGATAAGATAGCAATATGGACTACTGAATGTGAAAACAGAGAAGCTGTTACACATATAGGGAGGGTATACAAGGAAAGGTTAGGACTTCCTCCAAAGATAGTGATTGGTTATCAGTCCCACGCAGACACAGCTACTAAGAGCGGCTCCACCACTAAAAATAGGTTTGTTGTTTAA"
+DNA_sequence = "ATGGCGACT"
 
 def sequence_to_codons(DNA_sequence): #Converts the DNA sequence to codons and returns as a list
+      """ Returns the number of hydrophobic amino acids from new codons
+      >>> sequence_to_codons ('ATGGCGACT')
+      1.5
+      """
+
       codons =list()
       for i in range(0, len(DNA_sequence), 3):
             codon= DNA_sequence[i:i+3]
@@ -45,18 +50,17 @@ def print_codons(DNA_sequence): #Returns the codons on a separate line
       codons = sequence_to_codons(DNA_sequence)
       for codon in codons:
             return codon 
-#print_codons(DNA_sequence)
-#print check
 
 
-def find_mutant_codons(DNA_sequence):
+
+def find_mutant_codons(codon):
       new_codons = list()
-      codons = sequence_to_codons(DNA_sequence)
+      codons = sequence_to_codons(codon)
 
       for codon in codons:
- #           print codon
+
             bases =list(codon)
-  #          print bases
+
             new_codons.append(codon)
             for this_base in ['A','T','C','G']:
                  if this_base!= bases[0]:
@@ -65,12 +69,8 @@ def find_mutant_codons(DNA_sequence):
                         new_codons.append(bases[0] + this_base + bases[2])
                  if this_base!= bases[2]:
                         new_codons.append(bases[0] + bases[1] + this_base)
-#            print new_codons, '\n'
-    #        new_codons = list()
       return new_codons  
 
-#check = find_mutant_codons(DNA_sequence)
-#print check      
 
 
 
@@ -78,7 +78,7 @@ def find_mutant_codons(DNA_sequence):
 
 def calc_percentage_hydrophobic_for_codon(codon):
       new_codons= find_mutant_codons(codon)
-   #   new_codons = sequence_to_codons(codon)
+
       num_hydrophobic = 0
       for codon in new_codons:
             print codon
@@ -92,13 +92,14 @@ def calc_percentage_hydrophobic_for_codon(codon):
             
             if hydrophobicity >0:
                   num_hydrophobic +=1
-                 # print ("%s is hydrophobic" %aa)
-      return(num_hydrophobic)
-           
-           # else:
-                 # print ("%s is hydrophilic" %aa)
-#            num_hydrophobic = num_hydrophobic + is_hydrophobic
-#      return (num_hydrophobic/10)
+
+      return(num_hydrophobic/10.0)
+
+
+
+if __name__ =="__main__":
+      import doctest
+      doctest.testmod()
 
 
 

@@ -58,8 +58,8 @@ def find_mutant_codons(codon):
 
 def calc_percentage_hydrophobic_for_codon(codon):
       """ Returns the number of hydrophobic amino acids from new codons
-      >>> 'ACG'
-      2
+      >>> calc_percentage_hydrophobic_for_codon ('ACG')
+      0.20000000000000001
       """
 
       new_codons= find_mutant_codons(codon)
@@ -78,7 +78,7 @@ def calc_percentage_hydrophobic_for_codon(codon):
             if hydrophobicity >0:
                   num_hydrophobic +=1
                  # print ("%s is hydrophobic" %aa)
-      return(num_hydrophobic)
+      return(num_hydrophobic/10.0)
            
            # else:
                  # print ("%s is hydrophilic" %aa)
@@ -87,11 +87,11 @@ def calc_percentage_hydrophobic_for_codon(codon):
 
 
 
-codon= 'ACG'
-run_test = calc_percentage_hydrophobic_for_codon(codon)
-print run_test
 
 if __name__ =="__main__":
       import doctest
       doctest.testmod()
 
+codon= 'ACG'
+run_test = calc_percentage_hydrophobic_for_codon(codon)
+print run_test
