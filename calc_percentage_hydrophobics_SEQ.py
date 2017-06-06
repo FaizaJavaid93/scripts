@@ -1,3 +1,56 @@
+#*************************************************************************
+#
+#   Program:   calc_percentage_hydrophobic_for_codon
+#   File:      calc_percentage_hydrophobics_SEQ.py
+#  
+#   Version:   
+#   Date:      06.06.2017
+#   Function:  
+#  
+#   Copyright:  (c) UCL, Faiza Javaid, 2017
+#   Author:     Faiza Javaid
+#   Address:    Institute of Structural and Molecular Biology
+#               Division of Biosciences
+#               University College
+#               Gower Street
+#               London
+#               WC1E 6BT
+#   Email:      faiza.javaid.12@ucl.ac.uk
+#              
+#*************************************************************************
+#
+#   This program is not in the public domain, but it may be copied
+#   according to the conditions laid out in the accompanying file
+#   COPYING.DOC
+#
+#   The code may be modified as required, but any modifications must be
+#   documented so that the person responsible can be identified. If
+#   someone else breaks this code, I don't want to be blamed for code
+#   that does not work!
+#
+#   The code may not be sold commercially or included as part of a
+#   commercial product except as described in the file COPYING.DOC.
+#
+#*************************************************************************
+#
+#   Description:
+#   
+#
+#*************************************************************************
+#
+#   Usage:
+#
+#*************************************************************************
+#
+#   Revision History:
+#   =================
+#
+#*************************************************************************
+
+
+
+from calc_percentage_hydrophobics_COD import find_mutant_codons
+from calc_percentage_hydrophobics_COD import calc_percentage_hydrophobic_for_codon
 #Populate a dictionary with all the amino acid codons and respective amino acids
 
 codontable = {
@@ -33,7 +86,9 @@ amino_acid_hydrophobicity = {
 DNA_sequence = "ATGGCGACT"
 
 def sequence_to_codons(DNA_sequence): #Converts the DNA sequence to codons and returns as a list
-      """ Returns codons from a DNA sequence
+      """ Function: Returns 3-leter codons from a given DNA sequence
+      Input: DNA sequence- a string containing the bases A, T, G, C
+      Output: a list of strings containing 3-letter codons
       >>> sequence_to_codons('ATGGCGACT')
       ['ATG', 'GCG', 'ACT']
       """
@@ -48,55 +103,6 @@ def sequence_to_codons(DNA_sequence): #Converts the DNA sequence to codons and r
 
 
 
-def find_mutant_codons(codon):
-      """ Returns the mutant codons possible from each codon in sequence
-      >>> find_mutant_codons('ATGGCGACT')
-      ['ATG', 'AAG', 'ATA', 'TTG', 'ATT', 'CTG', 'ACG', 'ATC', 'GTG', 'AGG', 'GCG', 'ACG', 'GAG', 'GCA', 'TCG', 'GTG', 'GCT', 'CCG', 'GCC', 'GGG', 'ACT', 'AAT', 'ACA', 'TCT', 'ATT', 'CCT', 'ACC', 'GCT', 'AGT', 'ACG']
-      """
-      new_codons = list()
-      codons = sequence_to_codons(codon)
-
-      for codon in codons:
-
-            bases =list(codon)
-
-            new_codons.append(codon)
-            for this_base in ['A','T','C','G']:
-                 if this_base!= bases[0]:
-                        new_codons.append(this_base + bases[1] + bases[2])  
-                 if this_base!= bases[1]:
-                        new_codons.append(bases[0] + this_base + bases[2])
-                 if this_base!= bases[2]:
-                        new_codons.append(bases[0] + bases[1] + this_base)
-      return new_codons  
-
-
-
-
-
-
-def calc_percentage_hydrophobic_for_codon(codon):
-      """ Returns the percentage of hydrophobic codons possible from mutation of a codon 
-      >>> calc_percentage_hydrophobic_for_codon('ATGGCGACT')
-      1.5
-      """
-      new_codons= find_mutant_codons(codon)
-
-      num_hydrophobic = 0
-      for codon in new_codons:
-           # print codon
-            aa= codontable[codon]
-           # print aa
-            if aa == '_':
-                  continue
-            else:
-                  hydrophobicity= amino_acid_hydrophobicity[aa]
-           # print hydrophobicity
-            
-            if hydrophobicity >0:
-                  num_hydrophobic +=1
-
-      return(num_hydrophobic/10.0)
 
 
 
@@ -106,8 +112,9 @@ if __name__ =="__main__":
 
 
 
-run_test = calc_percentage_hydrophobic_for_codon(DNA_sequence)
-print run_test
 
 
-#['ATG', 'AAG', 'ATA', 'TTG', 'ATT', 'CTG', 'ACG', 'ATC', 'GTG', 'AGG', 'GCG', 'ACG', 'GAG', 'GCA', 'TCG', 'GTG', 'GCT', 'CCG', 'GCC', 'GGG', 'ACT', 'AAT', 'ACA', 'TCT', 'ATT', 'CCT', 'ACC', 'GCT', 'AGT', 'ACG']
+codons = sequence_to_codons(DNA_sequence)
+for codon in codons:
+    perc_hphob = calc_percentage_hydrophobic_for_codon(codon)
+    print(codon, ':', perc_hphob)

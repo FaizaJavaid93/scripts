@@ -1,3 +1,40 @@
+#*************************************************************************
+#
+#   Program:   calc_percentage_hydrophobic_for_codon
+#   File:      calc_percentage_hydrophobics_COD.py
+#
+#   Version:
+#   Date:      06.06.2017
+#   Function:
+#
+#   Copyright:  (c) UCL, Faiza Javaid, 2017
+#   Author:     Faiza Javaid
+#   Address:    Institute of Structural and Molecular Biology
+#               Division of Biosciences
+#               University College
+#               Gower Street
+#               London
+#               WC1E 6BT
+#   Email:      faiza.javaid.12@ucl.ac.uk
+#
+#*************************************************************************
+#
+#   This program is not in the public domain, but it may be copied
+#   according to the conditions laid out in the accompanying file
+#   COPYING.DOC
+#
+#   The code may be modified as required, but any modifications must be
+#   documented so that the person responsible can be identified. If
+#   someone else breaks this code, I don't want to be blamed for code
+#   that does not work!
+#
+#   The code may not be sold commercially or included as part of a
+#   commercial product except as described in the file COPYING.DOC.
+#
+#*************************************************************************
+
+
+
 #Populate a dictionary with all the amino acid codons and respective amino acids
 
 codontable = {
@@ -32,7 +69,14 @@ amino_acid_hydrophobicity = {
 
 
 def find_mutant_codons(codon):
+      """ Function: Returns the mutant codons possible from a codon in as a consequence of single base changes
+      
+      Input: codon - a string containing a 3-letter codon
+      Output: a list of strings containing the (mutant) 3-letter codons
 
+      >>> find_mutant_codons('ATG')
+      ['ATG', 'AAG', 'ATA', 'TTG', 'ATT', 'CTG', 'ACG', 'ATC', 'GTG', 'AGG']
+      """
 
       new_codons = list()
       bases =list(codon)
@@ -57,7 +101,11 @@ def find_mutant_codons(codon):
 
 
 def calc_percentage_hydrophobic_for_codon(codon):
-      """ Returns the number of hydrophobic amino acids from new codons
+      """ Function: Returns a value for the percentage of amino acids that are hydrophobic as a consequence of single base mutations in a codon 
+
+      Input: codon - a string containing a 3-lette codon 
+      Output: float - a percentage for the number of hydrophobic amino acids
+
       >>> calc_percentage_hydrophobic_for_codon ('ACG')
       0.20000000000000001
       """
@@ -66,25 +114,16 @@ def calc_percentage_hydrophobic_for_codon(codon):
 
       num_hydrophobic = 0
       for codon in new_codons:
-           # print codon
             aa= codontable[codon]
-           # print aa
             if aa == '_':
                   continue
             else:
                   hydrophobicity= amino_acid_hydrophobicity[aa]
-           # print hydrophobicity
-            
             if hydrophobicity >0:
                   num_hydrophobic +=1
-                 # print ("%s is hydrophobic" %aa)
+
       return(num_hydrophobic/10.0)
            
-           # else:
-                 # print ("%s is hydrophilic" %aa)
-#            num_hydrophobic = num_hydrophobic + is_hydrophobic
-#      return (num_hydrophobic/10)
-
 
 
 
