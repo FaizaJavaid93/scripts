@@ -5,7 +5,7 @@
 #  
 #   Version:   
 #   Date:      06.06.2017
-#   Function:  
+#   Function:  Determine the percentage of amino acids that arise as a consequence of single point mutations of a single codon that is hydrophobic
 #  
 #   Copyright:  (c) UCL, Faiza Javaid, 2017
 #   Author:     Faiza Javaid
@@ -33,25 +33,18 @@
 #
 #*************************************************************************
 #
-#   Description:
-#   
+#   Description: 
+#   This script would be used to calculate , from a given DNA sequence, what aa arise as a result of single point mutations of a codon and what percentage of those aa are hydrophobic 
 #
 #*************************************************************************
 #
-#   Usage:
-#
-#*************************************************************************
-#
-#   Revision History:
-#   =================
-#
-#*************************************************************************
 
 
 
 from calc_percentage_hydrophobics_COD import find_mutant_codons
+#The above function will return new codons formed as a result of mutation of a single codon
 from calc_percentage_hydrophobics_COD import calc_percentage_hydrophobic_for_codon
-#Populate a dictionary with all the amino acid codons and respective amino acids
+#The above function uses the previous function to dermine what percentage of aa formed from mutating the original codon are hydrophobic
 
 codontable = {
     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
@@ -72,7 +65,7 @@ codontable = {
     'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'
 }
 
-#Populate a dictionary with the amino acid and their hydrophobicity value 
+
 
 amino_acid_hydrophobicity = {
     'F': 2.8, 'M': 1.9, 'D':-3.5, 'L':3.8, 'A': 1.8,
