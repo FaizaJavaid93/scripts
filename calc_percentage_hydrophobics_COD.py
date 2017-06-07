@@ -35,7 +35,7 @@
 
 
 
-#Populate a dictionary with all the amino acid codons and respective amino acids
+#Populate a dictionary with all the amino acid codons and respective amino acids. This will help to assign the codons and determine what aa they code for 
 
 codontable = {
     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
@@ -79,9 +79,12 @@ def find_mutant_codons(codon):
       """
 
       new_codons = list()
+#Convert each codon (a string of 3 letters) into a list so you can iterate through and replace each position in the codon with a new base (with access via the index)
       bases =list(codon)
       new_codons.append(codon)
-      
+
+#The new base will either be at position 1, 2 or 3 provided that the new base (this_base) is not the same as the base it is trying to replace
+
       for this_base in ['A','T','C','G']:
             if this_base!= bases[0]:
                   new_codons.append(this_base + bases[1] + bases[2])  
@@ -89,12 +92,11 @@ def find_mutant_codons(codon):
                   new_codons.append(bases[0] + this_base + bases[2])
             if this_base!= bases[2]:
                   new_codons.append(bases[0] + bases[1] + this_base)
+#Return a list called new_codons populated with the new codons
 
       return new_codons  
 
 
-#check = find_mutant_codons(codon)
-#print check      
 
 
 
@@ -109,8 +111,10 @@ def calc_percentage_hydrophobic_for_codon(codon):
       >>> calc_percentage_hydrophobic_for_codon ('ACG')
       0.20000000000000001
       """
+#Get mutant codons 
 
       new_codons= find_mutant_codons(codon)
+#Create a counter
 
       num_hydrophobic = 0
       for codon in new_codons:
@@ -119,8 +123,11 @@ def calc_percentage_hydrophobic_for_codon(codon):
                   continue
             else:
                   hydrophobicity= amino_acid_hydrophobicity[aa]
+#Determine if hydrophobic - values over 0 i.e. positive values indicate that aa is hydrophobic 
+
             if hydrophobicity >0:
                   num_hydrophobic +=1
+#Get percentage - use a float 
 
       return(num_hydrophobic/10.0)
            
