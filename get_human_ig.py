@@ -5,7 +5,7 @@
 #
 #   Version:
 #   Date:      07.07.2017
-#   Function:  Read in a file, step through the file one line at a time to extract data (including accession number, organism name, nucleotide sequence and DNA sequence) for gamma heavy chain antibodies. 
+#   Function:  Read in a file, step through the file one line at a time to extract data (including accession number, organism name, nucleotide sequence and DNA sequence) for gamma heavy chain antibodies. The data is then stored in a file called antibody.out.  
 #
 #   Copyright:  (c) UCL, Faiza Javaid, 2017
 #   Author:     Faiza Javaid
@@ -38,7 +38,7 @@ import re
 import json
 import sys
 
-with open("antibody.dat") as f:
+with open("emblig-20160419-28088.xml") as f:
 	lines = f.readlines()
 
 d = {}
