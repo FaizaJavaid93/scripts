@@ -108,12 +108,15 @@ def calc_percentage_hydrophobic_for_codon(codon):
       Input: codon - a string containing a 3-lette codon 
       Output: float - a percentage for the number of hydrophobic amino acids
 
-      >>> calc_percentage_hydrophobic_for_codon ('ACG')
+      >>> calc_percentage_hydrophobic_for_codon ('GCG')
       0.20000000000000001
       """
 #Get mutant codons 
-
+#Determine the amino acid and hydrophobicity correspoding to the codon
       new_codons= find_mutant_codons(codon)
+      aa= codontable[codon]
+      hphob= amino_acid_hydrophobicity[aa]
+     
 #Create a counter
 
       num_hydrophobic = 0
@@ -123,9 +126,9 @@ def calc_percentage_hydrophobic_for_codon(codon):
                   continue
             else:
                   hydrophobicity= amino_acid_hydrophobicity[aa]
-#Determine if hydrophobic - values over 0 i.e. positive values indicate that aa is hydrophobic 
+#Determine if new aa is MORE  hydrophobic than current - values over the hphob value of original codon i.e. positive values indicate that aa is hydrophobic 
 
-            if hydrophobicity >0:
+            if hydrophobicity >hphob:
                   num_hydrophobic +=1
 #Get percentage - use a float 
 
@@ -138,6 +141,6 @@ if __name__ =="__main__":
       import doctest
       doctest.testmod()
 
-codon= 'ACG'
+codon= 'GCG'
 run_test = calc_percentage_hydrophobic_for_codon(codon)
 print run_test
