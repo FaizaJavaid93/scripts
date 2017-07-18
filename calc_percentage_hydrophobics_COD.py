@@ -37,23 +37,26 @@
 
 #Populate a dictionary with all the amino acid codons and respective amino acids. This will help to assign the codons and determine what aa they code for 
 
+
+import re
+
 codontable = {
-    'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
-    'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
-    'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
-    'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',
-    'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
-    'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
-    'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
-    'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
-    'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
-    'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
-    'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
-    'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
-    'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
-    'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
-    'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
-    'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'
+    'ata':'I', 'atc':'I', 'att':'I', 'atg':'M',
+    'aca':'T', 'acc':'T', 'acg':'T', 'act':'T',
+    'aac':'N', 'aat':'N', 'aaa':'K', 'aag':'K',
+    'agc':'S', 'agt':'S', 'aga':'R', 'agg':'R',
+    'cta':'L', 'ctc':'L', 'ctg':'L', 'ctt':'L',
+    'cca':'P', 'ccc':'P', 'ccg':'P', 'cct':'P',
+    'cac':'H', 'cat':'H', 'caa':'Q', 'cag':'Q',
+    'cga':'R', 'cgc':'R', 'cgg':'R', 'cgt':'R',
+    'gta':'V', 'gtc':'V', 'gtg':'V', 'gtt':'V',
+    'gca':'A', 'gcc':'A', 'gcg':'A', 'gct':'A',
+    'gac':'D', 'gat':'D', 'gaa':'E', 'gag':'E',
+    'gga':'G', 'ggc':'G', 'ggg':'G', 'ggt':'G',
+    'tca':'S', 'tcc':'S', 'tcg':'S', 'tct':'S',
+    'ttc':'F', 'ttt':'F', 'tta':'L', 'ttg':'L',
+    'tac':'Y', 'tat':'Y', 'taa':'_', 'tag':'_',
+    'tgc':'C', 'tgt':'C', 'tga':'_', 'tgg':'W'
 }
 
 #Populate a dictionary with the amino acid and their hydrophobicity value 
@@ -74,8 +77,8 @@ def find_mutant_codons(codon):
       Input: codon - a string containing a 3-letter codon
       Output: a list of strings containing the (mutant) 3-letter codons
 
-      >>> find_mutant_codons('ATG')
-      ['ATG', 'AAG', 'ATA', 'TTG', 'ATT', 'CTG', 'ACG', 'ATC', 'GTG', 'AGG']
+      >>> find_mutant_codons('atg')
+      ['atg', 'aag', 'ata', 'ttg', 'att', 'ctg', 'acg', 'atc', 'gtg', 'agg']
       """
 
       new_codons = list()
@@ -85,7 +88,7 @@ def find_mutant_codons(codon):
 
 #The new base will either be at position 1, 2 or 3 provided that the new base (this_base) is not the same as the base it is trying to replace
 
-      for this_base in ['A','T','C','G']:
+      for this_base in ['a','t','c','g']:
             if this_base!= bases[0]:
                   new_codons.append(this_base + bases[1] + bases[2])  
             if this_base!= bases[1]:
@@ -108,31 +111,34 @@ def calc_percentage_hydrophobic_for_codon(codon):
       Input: codon - a string containing a 3-lette codon 
       Output: float - a percentage for the number of hydrophobic amino acids
 
-      >>> calc_percentage_hydrophobic_for_codon ('GCG')
+      >>> calc_percentage_hydrophobic_for_codon ('gcg')
       0.20000000000000001
       """
 #Get mutant codons 
 #Determine the amino acid and hydrophobicity correspoding to the codon
       new_codons= find_mutant_codons(codon)
-      aa= codontable[codon]
-      hphob= amino_acid_hydrophobicity[aa]
+      if '-'not in codon:
+          
+            aa= codontable[codon]
+            hphob= amino_acid_hydrophobicity[aa]
      
 #Create a counter
 
-      num_hydrophobic = 0
-      for codon in new_codons:
-            aa= codontable[codon]
-            if aa == '_':
-                  continue
-            else:
-                  hydrophobicity= amino_acid_hydrophobicity[aa]
+            num_hydrophobic = 0
+            for codon in new_codons:
+                  if '-' not in codon: 
+                        aa= codontable[codon]
+                        if aa == '_':
+                              continue
+                        else:
+                              hydrophobicity= amino_acid_hydrophobicity[aa]
 #Determine if new aa is MORE  hydrophobic than current - values over the hphob value of original codon i.e. positive values indicate that aa is hydrophobic 
 
-            if hydrophobicity >hphob:
-                  num_hydrophobic +=1
-#Get percentage - use a float 
+                              if hydrophobicity >hphob:
+                                    num_hydrophobic +=1
+#Get percentage - use a float y
 
-      return(num_hydrophobic/10.0)
+            return(num_hydrophobic/10.0)
            
 
 
@@ -141,6 +147,16 @@ if __name__ =="__main__":
       import doctest
       doctest.testmod()
 
-codon= 'GCG'
-run_test = calc_percentage_hydrophobic_for_codon(codon)
-print run_test
+
+
+
+f= open("mutations.txt")
+
+for line in f: 
+#find line that starts with the codon number, and from that pull out the germline codon. Run code on this (i.e. determine probability that a mutation would result in that codon forming a MORE hydrophobic aa)     
+      if re.match (r'\s+\d+', line): 
+            codon=  line.split(":")[1].split(" ")[1]
+
+            run_test = calc_percentage_hydrophobic_for_codon(codon)                                                             
+            print run_test 
+
