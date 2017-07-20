@@ -117,7 +117,7 @@ def calc_percentage_hydrophobic_for_codon(codon):
 #Get mutant codons 
 #Determine the amino acid and hydrophobicity correspoding to the codon
       new_codons= find_mutant_codons(codon)
-      if '-'not in codon:
+      if '-'not in codon and 'n' not in codon and 'r' not in codon:
           
             aa= codontable[codon]
             hphob= amino_acid_hydrophobicity[aa]
@@ -126,7 +126,7 @@ def calc_percentage_hydrophobic_for_codon(codon):
 
             num_hydrophobic = 0
             for codon in new_codons:
-                  if '-' not in codon: 
+                  if '-' not in codon and 'n' not in codon and 'r' not in codon: 
                         aa= codontable[codon]
                         if aa == '_':
                               continue
@@ -143,6 +143,9 @@ def calc_percentage_hydrophobic_for_codon(codon):
 
 
 
+
+
+
 if __name__ =="__main__":
       import doctest
       doctest.testmod()
@@ -152,11 +155,62 @@ if __name__ =="__main__":
 
 f= open("mutations.txt")
 
+total_codon= 0
+not_hydrophobic= 0
+is_hydrophobic = 0
 for line in f: 
+
 #find line that starts with the codon number, and from that pull out the germline codon. Run code on this (i.e. determine probability that a mutation would result in that codon forming a MORE hydrophobic aa)     
-      if re.match (r'\s+\d+', line): 
+#      if re.match (r'\s+\d+', line): 
+#            codon=  line.split(":")[1].split(" ")[1]
+#            print codon 
+           # if '-'not in codon and 'n' not in codon and 'r' not in codon:
+
+            #      aa= codontable[codon]
+             #     old_hphob= amino_acid_hydrophobicity[aa]
+#            perc_hydrophobic = calc_percentage_hydrophobic_for_codon(codon)                                        
+          
+
+#Find line that starts with the codon number, and from that pull out the EXPRESSED codon/aa. find out if the mutation has resulted in an aa that is hydrophobic. Is the new aa more hydrophobic? 
+#            if re.match (r'\s+\d+', line):
+#                  new_aa=  line.split(":")[1].split(" ")[4]
+#                  new_aa= new_aa.strip('\n')
+#                  print new_aa
+#                  if '?' not in new_aa:
+#                        new_hphob = amino_acid_hydrophobicity[new_aa]
+#                        print new_hphob
+                       # if new_hphob > old_hphob: 
+                                   # is_hydrophobic +=1
+                                   # print is_hydrophobic
+
+      #     is_hydrophobic = calc_percentage_hydrophobic_for_codon(new_codon)
+      #      print is_hydrophobic
+
+
+#Find out if the new codon which formed by mutation is more or less hydrophobic than the original codon in the gemline sequence. Make a count of the number of times you get a more vs a  less hydrophobic 
+      if re.match (r'\s+\d+', line):
             codon=  line.split(":")[1].split(" ")[1]
+            if '-'not in codon and 'n' not in codon and 'r' not in codon:
+                #Print the hydrophobicity of the original amino acid 
+                  total_codon +=1
+                  aa= codontable[codon]
+                  old_hphob= amino_acid_hydrophobicity[aa]
+                  print old_hphob
 
-            run_test = calc_percentage_hydrophobic_for_codon(codon)                                                             
-            print run_test 
-
+                  if re.match (r'\s+\d+', line):
+                        new_aa=  line.split(":")[1].split(" ")[4]
+                        new_aa= new_aa.strip('\n')
+                        #print the hydrophobicity of the new amino acid
+                        if '?' not in new_aa:
+                              new_hphob = amino_acid_hydrophobicity[new_aa]
+                              print new_hphob
+                              if new_hphob > old_hphob: 
+                                    is_hydrophobic +=1
+                                    
+                                    print "is more hydrophobic"
+                              else: 
+                                    not_hydrophobic +=1
+                                    print "is less hydrophobic"
+print total_codon
+print is_hydrophobic 
+print not_hydrophobic
