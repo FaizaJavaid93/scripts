@@ -156,8 +156,9 @@ if __name__ =="__main__":
 f= open("mutations.txt")
 
 total_codon= 0
+exp_hydrophobic = 0
 not_hydrophobic= 0
-is_hydrophobic = 0
+obs_hydrophobic = 0
 for line in f: 
 
 #find line that starts with the codon number, and from that pull out the germline codon. Run code on this (i.e. determine probability that a mutation would result in that codon forming a MORE hydrophobic aa)     
@@ -196,7 +197,10 @@ for line in f:
                   aa= codontable[codon]
                   old_hphob= amino_acid_hydrophobicity[aa]
                   print old_hphob
-
+                  perc_hydrophobic = calc_percentage_hydrophobic_for_codon(codon)
+                  print perc_hydrophobic 
+                  if perc_hydrophobic >0.0: 
+                        exp_hydrophobic +=1 
                   if re.match (r'\s+\d+', line):
                         new_aa=  line.split(":")[1].split(" ")[4]
                         new_aa= new_aa.strip('\n')
@@ -205,12 +209,13 @@ for line in f:
                               new_hphob = amino_acid_hydrophobicity[new_aa]
                               print new_hphob
                               if new_hphob > old_hphob: 
-                                    is_hydrophobic +=1
+                                    obs_hydrophobic +=1
                                     
                                     print "is more hydrophobic"
                               else: 
                                     not_hydrophobic +=1
                                     print "is less hydrophobic"
 print total_codon
-print is_hydrophobic 
+print obs_hydrophobic
+print exp_hydrophobic 
 print not_hydrophobic
