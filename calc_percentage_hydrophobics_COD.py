@@ -112,7 +112,8 @@ def calc_percentage_hydrophobic_for_codon(codon):
       Output: float - a percentage for the number of hydrophobic amino acids
 
       >>> calc_percentage_hydrophobic_for_codon ('gcg')
-      0.20000000000000001
+      0.22222222222222221
+
       """
 #Get mutant codons 
 #Determine the amino acid and hydrophobicity correspoding to the codon
@@ -138,7 +139,7 @@ def calc_percentage_hydrophobic_for_codon(codon):
                                     num_hydrophobic +=1
 #Get percentage - use a float y
 
-            return    (num_hydrophobic/10.0)
+            return    (num_hydrophobic/9.0)
            
 
 
@@ -176,9 +177,9 @@ for line in f:
                   total_codon +=1
                   aa= codontable[codon]
                   old_hphob= amino_acid_hydrophobicity[aa]
-                  print old_hphob
+                 # print old_hphob
                   perc_hydrophobic = calc_percentage_hydrophobic_for_codon(codon)
-                  print perc_hydrophobic
+                  #print perc_hydrophobic
                   exp_hydrophobic = perc_hydrophobic + exp_hydrophobic
 
                   if re.match (r'\s+\d+', line):
@@ -189,7 +190,7 @@ for line in f:
 #print the hydrophobicity of the new amino acid
                         if '?' not in new_aa:
                               new_hphob = amino_acid_hydrophobicity[new_aa]
-                              print new_hphob
+                              #print new_hphob
                               if new_hphob > old_hphob: 
                                     obs_hydrophobic +=1
                                     
@@ -203,4 +204,5 @@ print("The number of non-hydrophobic amino acids is: %s" %(not_hydrophobic))
 print ("The number of observed hydrophobic amino acids is: %s"%(obs_hydrophobic))
 print ("The number of expected hydrophobic amino acids is: %s"%(exp_hydrophobic))
 
-            
+
+
