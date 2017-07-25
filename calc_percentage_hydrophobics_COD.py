@@ -138,7 +138,7 @@ def calc_percentage_hydrophobic_for_codon(codon):
                                     num_hydrophobic +=1
 #Get percentage - use a float y
 
-            return(num_hydrophobic/10.0)
+            return    (num_hydrophobic/10.0)
            
 
 
@@ -198,9 +198,9 @@ for line in f:
                   old_hphob= amino_acid_hydrophobicity[aa]
                   print old_hphob
                   perc_hydrophobic = calc_percentage_hydrophobic_for_codon(codon)
-                  print perc_hydrophobic 
-                  if perc_hydrophobic >0.0: 
-                        exp_hydrophobic +=1 
+                  print perc_hydrophobic
+                  exp_hydrophobic = perc_hydrophobic + exp_hydrophobic
+
                   if re.match (r'\s+\d+', line):
                         new_aa=  line.split(":")[1].split(" ")[4]
                         new_aa= new_aa.strip('\n')
@@ -215,7 +215,9 @@ for line in f:
                               else: 
                                     not_hydrophobic +=1
                                     print "is less hydrophobic"
-print total_codon
-print obs_hydrophobic
-print exp_hydrophobic 
-print not_hydrophobic
+print ("total number of codons is : %s" %(total_codon))
+print    ("number of non-hydrophobic amino acids is: %s" %(not_hydrophobic))
+print ("number of observed hydrophobic amino acids is: %s"%(obs_hydrophobic))
+print ("number of expected hydrophobic amino acids is: %s"%(exp_hydrophobic))
+
+            
