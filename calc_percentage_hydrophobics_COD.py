@@ -4,7 +4,7 @@
 #   File:      calc_percentage_hydrophobics_COD.py
 #
 #   Version:
-#   Date:      06.06.2017
+#   Date:      25.07.2017
 #   Function:
 #
 #   Copyright:  (c) UCL, Faiza Javaid, 2017
@@ -161,38 +161,18 @@ not_hydrophobic= 0
 obs_hydrophobic = 0
 for line in f: 
 
-#find line that starts with the codon number, and from that pull out the germline codon. Run code on this (i.e. determine probability that a mutation would result in that codon forming a MORE hydrophobic aa)     
-#      if re.match (r'\s+\d+', line): 
-#            codon=  line.split(":")[1].split(" ")[1]
-#            print codon 
-           # if '-'not in codon and 'n' not in codon and 'r' not in codon:
-
-            #      aa= codontable[codon]
-             #     old_hphob= amino_acid_hydrophobicity[aa]
-#            perc_hydrophobic = calc_percentage_hydrophobic_for_codon(codon)                                        
-          
-
-#Find line that starts with the codon number, and from that pull out the EXPRESSED codon/aa. find out if the mutation has resulted in an aa that is hydrophobic. Is the new aa more hydrophobic? 
-#            if re.match (r'\s+\d+', line):
-#                  new_aa=  line.split(":")[1].split(" ")[4]
-#                  new_aa= new_aa.strip('\n')
-#                  print new_aa
-#                  if '?' not in new_aa:
-#                        new_hphob = amino_acid_hydrophobicity[new_aa]
-#                        print new_hphob
-                       # if new_hphob > old_hphob: 
-                                   # is_hydrophobic +=1
-                                   # print is_hydrophobic
-
-      #     is_hydrophobic = calc_percentage_hydrophobic_for_codon(new_codon)
-      #      print is_hydrophobic
-
 
 #Find out if the new codon which formed by mutation is more or less hydrophobic than the original codon in the gemline sequence. Make a count of the number of times you get a more vs a  less hydrophobic 
+
+#From the file mutations.txt, pull out the lines of interest, and from that extract the information of interest. i.e. germline codon that has been mutated and new resultant amino acid 
+
       if re.match (r'\s+\d+', line):
             codon=  line.split(":")[1].split(" ")[1]
             if '-'not in codon and 'n' not in codon and 'r' not in codon:
-                #Print the hydrophobicity of the original amino acid 
+
+
+#Print the hydrophobicity of the original germline amino acid 
+# Keep a running count of the number of codons analysed 
                   total_codon +=1
                   aa= codontable[codon]
                   old_hphob= amino_acid_hydrophobicity[aa]
@@ -204,20 +184,23 @@ for line in f:
                   if re.match (r'\s+\d+', line):
                         new_aa=  line.split(":")[1].split(" ")[4]
                         new_aa= new_aa.strip('\n')
-                        #print the hydrophobicity of the new amino acid
+
+
+#print the hydrophobicity of the new amino acid
                         if '?' not in new_aa:
                               new_hphob = amino_acid_hydrophobicity[new_aa]
                               print new_hphob
                               if new_hphob > old_hphob: 
                                     obs_hydrophobic +=1
                                     
-                                    print "is more hydrophobic"
                               else: 
                                     not_hydrophobic +=1
-                                    print "is less hydrophobic"
-print ("total number of codons is : %s" %(total_codon))
-print    ("number of non-hydrophobic amino acids is: %s" %(not_hydrophobic))
-print ("number of observed hydrophobic amino acids is: %s"%(obs_hydrophobic))
-print ("number of expected hydrophobic amino acids is: %s"%(exp_hydrophobic))
+                                    
+
+
+print ("The total number of codons is : %s" %(total_codon))
+print("The number of non-hydrophobic amino acids is: %s" %(not_hydrophobic))
+print ("The number of observed hydrophobic amino acids is: %s"%(obs_hydrophobic))
+print ("The number of expected hydrophobic amino acids is: %s"%(exp_hydrophobic))
 
             
